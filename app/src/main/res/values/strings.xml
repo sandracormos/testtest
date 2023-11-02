@@ -11,5 +11,7 @@
     <string name="height_description">"Enter your height in centimeters"</string>
     <string name="textview">TextView</string>
     <string name="nutrimotion">NutriMotion</string>
+    <string name="lose_weight">Lose Weight</string>
+    <string name="select_your_goal">Select your goal</string>
 
 </resources>
