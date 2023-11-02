@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView chart;
     ImageView needle;
 
-    TextView AXA;
+
 
 
     @Override
@@ -35,16 +35,13 @@ public class MainActivity extends AppCompatActivity {
         status = findViewById(R.id.status);
         chart = findViewById(R.id.chart);
         needle = findViewById(R.id.needle);
-        AXA =   findViewById(R.id.AXA);
 
         // Define the minimum and maximum X-axis positions for the needle
         final int minPosition = 0;
         final int maxPosition = chart.getWidth() - needle.getWidth();
         float myNeedlePos = needle.getX();
 
-        AXA.setText(Float.toString(myNeedlePos) );
 
-        AXA.setText(Float.toString(chart.getWidth()));
 
 
 

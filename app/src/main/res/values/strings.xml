@@ -3,12 +3,12 @@
     <string name="your_result">Your Result</string>
     <string name="calculate">Calculate</string>
     <string name="_23">23</string>
-    <string name="your_height_in_cm">Your Height in Cm</string>
-    <string name="your_weight_in_kg">Your Weight in Kg</string>
+    <string name="your_height_in_cm">"  Your Height in Cm"</string>
+    <string name="your_weight_in_kg">"  Your Weight in Kg"</string>
     <string name="bmi_calculator">BMI Calculator</string>
-    <string name="weight_status">Weight Status</string>
-    <string name="weight_description">Enter your weight in kilograms</string>
-    <string name="height_description">Enter your height in centimeters</string>
+    <string name="weight_status">   Weight Status</string>
+    <string name="weight_description">"Enter your weight in kilograms"</string>
+    <string name="height_description">"Enter your height in centimeters"</string>
     <string name="textview">TextView</string>
 
 </resources>
