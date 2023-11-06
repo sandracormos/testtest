@@ -4,7 +4,7 @@ enum Gender {Female, Male }
 public class User {
 
     private static int height;
-    private static int weight;
+    private static double weight;
     private static double kcalCount;
 
     private static Gender gender;

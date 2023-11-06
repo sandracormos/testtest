@@ -66,10 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 String weightStr = weight.getText().toString();
 
 
-
-
-
-
                 if (heightStr.isEmpty() || weightStr.isEmpty()) {
                     resultText.setTextSize(20);
                     resultText.setText("Please enter both height and weight");
@@ -105,7 +101,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        User.setHeight(Integer.parseInt(height.getText().toString()));
+
+        height.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    //baga cachuri
+                    User.setHeight(Integer.parseInt(height.getText().toString()));
+                }
+            }
+        });
+
+
 //        User.setWeight(Integer.parseInt(weight.getText().toString()));
 //        User.setGender(Gender.valueOf(spinner.getSelectedItem().toString()));
 //        User.setAge(Integer.parseInt((String) age.getText()));
