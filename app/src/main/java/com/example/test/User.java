@@ -3,7 +3,7 @@ enum Goal{ weightLoss, bodybuilding, wellness}
 enum Gender {Female, Male }
 public class User {
 
-    private static int height;
+    private static double height;
     private static double weight;
     private static double kcalCount;
 
@@ -18,11 +18,11 @@ public class User {
 
 
 
-    public static Integer getHeight() {
+    public static Double getHeight() {
         return height;
     }
 
-    public static void setHeight(Integer height) {
+    public static void setHeight(Double height) {
         User.height = height;
     }
     public static void setGender(Gender gender) {

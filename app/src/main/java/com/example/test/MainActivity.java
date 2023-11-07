@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -108,10 +109,46 @@ public class MainActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     //baga cachuri
-                    User.setHeight(Integer.parseInt(height.getText().toString()));
+                    User.setHeight(Double.parseDouble(height.getText().toString()));
                 }
             }
         });
+        weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    //baga cachuri
+                    User.setWeight(Double.parseDouble(weight.getText().toString()));
+                }
+            }
+        });
+        age.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    //baga cachuri
+                    User.setAge(Integer.parseInt(age.getText().toString()));
+                }
+            }
+        });
+
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parentView) {
+//                // your code here
+//            }
+//
+//        });
+
+
+
 
 
 //        User.setWeight(Integer.parseInt(weight.getText().toString()));
