@@ -70,30 +70,7 @@ public class SetGoalActivity extends AppCompatActivity {
 
 
 
-    public void calculateRecommendedCaloriesForGoal(Goal myGoal){
-        switch (myGoal){
-            case weightLoss:
-                //code
 
-
-                break;
-
-            case bodybuilding:
-                //code
-
-
-                break;
-
-            case wellness:
-                //code
-
-
-                break;
-            default:
-                //code
-
-        }
-    }
 
 
 }

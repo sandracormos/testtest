@@ -152,9 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        User.setWeight(Integer.parseInt(weight.getText().toString()));
-//        User.setGender(Gender.valueOf(spinner.getSelectedItem().toString()));
-//        User.setAge(Integer.parseInt((String) age.getText()));
 
         configureNextButton();
     }

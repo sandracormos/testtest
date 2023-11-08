@@ -53,7 +53,7 @@
         app:srcCompat="@drawable/circle" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/kcalCount"
         android:layout_width="138dp"
         android:layout_height="65dp"
         android:gravity="center"
@@ -177,48 +177,8 @@
         android:text="Fat"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/textView16"
-        tools:layout_editor_absoluteY="216dp" />
-
-    <ScrollView
-        android:layout_width="327dp"
-        android:layout_height="306dp"
-        android:background="@color/input"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="384dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+        tools:layout_editor_absoluteY="216dp"
+        tools:ignore="MissingConstraints" />
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</androidx.constraintlayout.widget.ConstraintLayout>
