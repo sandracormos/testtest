@@ -6,7 +6,7 @@
     android:id="@+id/backbtn"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    tools:context=".SetGoalActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -155,11 +155,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/button"
-            android:onClick="onNextButtonClicked"
             android:text="Next"
-            android:textSize="20sp"
-
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/quote"

@@ -3,8 +3,10 @@ package com.example.test;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -19,6 +21,8 @@ public class SetGoalActivity extends AppCompatActivity {
 
 
     Goal myGoal;
+    Button nextButton;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -31,6 +35,7 @@ public class SetGoalActivity extends AppCompatActivity {
         wellnessbtn = findViewById(R.id.wellnessbtn);
         quote = findViewById(R.id.quote);
 
+        nextButton = findViewById(R.id.nextButton);
 
 
 
@@ -64,12 +69,19 @@ public class SetGoalActivity extends AppCompatActivity {
         });
 
 
-
+        nextButtonCeva();
 
     }
 
 
-
+   private void nextButtonCeva(){
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SetGoalActivity.this, KcalMenu.class));
+            }
+        });
+   }
 
 
 
