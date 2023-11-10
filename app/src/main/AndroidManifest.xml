@@ -16,9 +16,6 @@
             android:name=".KcalMenu"
             android:exported="false" />
         <activity
-            android:name=".UserDataForKcal"
-            android:exported="false" />
-        <activity
             android:name=".SetGoalActivity"
             android:exported="false" />
         <activity

@@ -21,10 +21,8 @@ public class SetGoalActivity extends AppCompatActivity {
 
 
     Goal myGoal;
-    Button nextButton;
+    Button nextBtnGoal;
 
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +33,7 @@ public class SetGoalActivity extends AppCompatActivity {
         wellnessbtn = findViewById(R.id.wellnessbtn);
         quote = findViewById(R.id.quote);
 
-        nextButton = findViewById(R.id.nextButton);
+        nextBtnGoal = findViewById(R.id.nextBtnGoal);
 
 
 
@@ -47,6 +45,7 @@ public class SetGoalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 quote.setText("Every step counts. Progress, not perfection.");
                 myGoal = Goal.weightLoss;
+                User.setGoal(myGoal);
             }
         });
         bodybuildingbtn.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +54,7 @@ public class SetGoalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 quote.setText("Strength comes from within. Lift, grow, repeat.");
                 myGoal = Goal.bodybuilding;
+                User.setGoal(myGoal);
             }
 
         });
@@ -65,6 +65,7 @@ public class SetGoalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 quote.setText("Health is wealth. Take care of your greatest asset.");
                 myGoal= Goal.wellness;
+                User.setGoal(myGoal);
             }
         });
 
@@ -75,10 +76,10 @@ public class SetGoalActivity extends AppCompatActivity {
 
 
    private void nextButtonCeva(){
-        nextButton.setOnClickListener(new View.OnClickListener() {
+       nextBtnGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SetGoalActivity.this, KcalMenu.class));
+                startActivity(new Intent(getBaseContext(), KcalMenu.class));
             }
         });
    }

@@ -41,10 +41,12 @@ public class KcalMenu extends AppCompatActivity {
                 if(User.getGender() == Gender.Male){
                     Integer kcalCount = (int) (10* User.getWeight() + 6.25 * User.getHeight() -5* User.getAge() + 5);
                     User.setKcalCount( kcalCount);
+                    kcalCount_label.setText(kcalCount.toString());
                 }
                 else{
                     Integer kcalCount = (int) (10*User.getWeight() + 6.25 *User.getHeight() - 5 * User.getAge() - 161);
                     User.setKcalCount(kcalCount);
+                    kcalCount_label.setText(kcalCount.toString());
                 }
 
 
@@ -54,5 +56,7 @@ public class KcalMenu extends AppCompatActivity {
                 //code
 
         }
+
+
     }
 }
