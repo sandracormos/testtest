@@ -1,38 +1,52 @@
 package com.example.test;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+
+import com.journeyapps.barcodescanner.CaptureActivity;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 public class ScanMeal extends AppCompatActivity {
 
+    Button btn_scan;
 
-
-    ImageButton scan_button;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_meal);
 
-        scan_button = findViewById(R.id.scan_button);
-
-
-        configureScanButton();
+        btn_scan = findViewById(R.id.btn_scan);
+        btn_scan.setOnClickListener(v -> {
+            scanCode();
+        });
     }
 
+    private void scanCode() {
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Volume up to flash on");
+        options.setBeepEnabled(true);
+        options.setOrientationLocked(true);
+        options.setCaptureActivity(CaptureActivity.class);
+        barLauncher.launch(options);
+    }
 
-    private void configureScanButton() {
-        scan_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity((new Intent(ScanMeal.this, SetGoalActivity.class)));
-            }
-        });
+    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
+        if (result.getContents() != null) {
+            // Handle the scanned barcode
+            handleScannedBarcode(result.getContents());
+        }
+    });
+
+    private void handleScannedBarcode(String barcode) {
+        // Make the API request
+        NutritionixApiRequest().execute(barcode);
     }
 }
