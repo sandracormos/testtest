@@ -19,7 +19,6 @@ import com.journeyapps.barcodescanner.CaptureActivity;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -64,9 +63,11 @@ public class ScanMeal extends AppCompatActivity {
                 Gson gson = new Gson();
                 ResponseProducts foodData = gson.fromJson(responseRawText, ResponseProducts.class);
                 Map<String, Double> myMap = getNutritionalValues(foodData.products.get(0).nutrition_facts);
+                tx.setText(formatMap(myMap));
+
                 //tx.setText(foodData.products.get(0).nutrition_facts);
 
-                tx.setText((CharSequence) myMap);
+//                tx.setText((CharSequence) myMap);
 
                 // Now you can use the 'foodData' object as needed
 
@@ -121,47 +122,84 @@ public class ScanMeal extends AppCompatActivity {
 
 
     private Map<String, Double> getNutritionalValues(String nutritionsFacts) {
-//
-//        Map<String, Nutrient> nutrientMap = getNutritionalValues(nutritionFacts);
-//
-//        // Print the resulting map
-//        for (Map.Entry<String, Nutrient> entry : nutrientMap.entrySet()) {
-//            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-//        String[] resultArray = nutritionsFacts.split(",");
-//        for (String entry : resultArray){
-//            if ()
-//        }
 
+        String[] elementsArray = nutritionsFacts.split(", ");
         Map<String, Double> resultMap = new HashMap<>();
 
         // Process each part of the split array
-        for (String entry : resultArray) {
-            // Split each entry by space
-            String[] keyValue = entry.split(" ");
-
-            // Extract the key and value
-            if (keyValue[0].length() >= 2) {
-                // Extract the key and value
-                String key = keyValue[0];
-                Double value = Double.parseDouble(keyValue[1]);
-
-                // Put the key-value pair into the map
-                resultMap.put(key, value);
-            } else {
-                String key = keyValue[1];
-                Double value = Double.parseDouble(keyValue[2]);
-                resultMap.put(key, value);
+        for ( String element : elementsArray) {
+            String rawElement = removeParentheses(element);
+            String[] elementParts = rawElement.split(" ");
+            for (String e : elementParts) {
+                if(isNumeric(e)) {
+                    Double value = Double.parseDouble(e);
+                    String key= elementParts[0] ;
+                    resultMap.put(key, value);
+                    break;
+                }
             }
-
-            // Print the resulting map
-            System.out.println(resultMap);
-
-
         }
         return resultMap;
-
     }
+
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public static String removeParentheses(String input) {
+        StringBuilder result = new StringBuilder();
+        boolean insideParentheses = false;
+
+        for (char c : input.toCharArray()) {
+            if (c == '(') {
+                insideParentheses = true;
+            } else if (c == ')' && insideParentheses) {
+                insideParentheses = false;
+                continue;
+            }
+
+            if (!insideParentheses) {
+                    result.append(c);
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static String[] extractFirstElements(String[] inputArray) {
+        String[] firstElements = new String[inputArray.length];
+
+        for (int i = 0; i < inputArray.length; i++) {
+            // Split each string based on a space character
+            String[] elements = inputArray[i].split(" ");
+
+            // Take the first element and store it in the result array
+            if (elements.length > 0) {
+                firstElements[i] = elements[0];
+            }
+        }
+
+        return firstElements;
+    }
+
+    private static String formatMap(Map<String, Double> map) {
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<String, Double> entry : map.entrySet()) {
+            result.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        }
+        return result.toString();
+    }
+
 }
 
 
