@@ -1,8 +1,18 @@
 package com.example.test;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,6 +40,16 @@ public class ScanMeal extends AppCompatActivity {
     TextView tx;
 
     String barcode;
+
+    TextView product_name;
+
+    TextView aux_pannel;
+    ImageView tick_button;
+    ImageView cancel_button;
+    TextView kcal_number;
+
+    Button nr_service_btn;
+
 //    private static final String APP_ID="3f4bd6c4";
 //    private static final String API_KEY = "4a3dc4f14378a3b2c6562d784da31153";
 
@@ -38,12 +58,41 @@ public class ScanMeal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_meal);
+
+        aux_pannel = findViewById(R.id.aux_pannel);
+        product_name = findViewById(R.id.product_name);
         tx = findViewById(R.id.responseTextView);
         btn_scan = findViewById(R.id.btn_scan);
+        tick_button = findViewById(R.id.tick_button);
+        cancel_button = findViewById(R.id.cancel_button);
+        kcal_number = findViewById(R.id.kcal_number);
+        nr_service_btn= findViewById(R.id.number_of_servings_button);
+
+
+
         btn_scan.setOnClickListener(v -> {
             scanCode();
 
+            tick_button.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    tick_button.setVisibility(View.VISIBLE);
+                    aux_pannel.setVisibility(View.VISIBLE);
+                    product_name.setVisibility(View.VISIBLE);
+                    tx.setVisibility(View.VISIBLE);
+
+                    cancel_button.setVisibility(View.VISIBLE);
+                }
+            }, 2000);
+
         });
+
+        nr_service_btn.setOnClickListener(v ->{
+            showPopup();
+        });
+
+
     }
 
 
@@ -64,6 +113,10 @@ public class ScanMeal extends AppCompatActivity {
                 ResponseProducts foodData = gson.fromJson(responseRawText, ResponseProducts.class);
                 Map<String, Double> myMap = getNutritionalValues(foodData.products.get(0).nutrition_facts);
                 tx.setText(formatMap(myMap));
+                product_name.setText(foodData.products.get(0).title);
+
+                Double kcal = myMap.get("Energy") ;
+                kcal_number.setText(kcal.toString());
 
                 //tx.setText(foodData.products.get(0).nutrition_facts);
 
@@ -95,6 +148,18 @@ public class ScanMeal extends AppCompatActivity {
             Log.i(e.toString(), "MyTag");
         }
 
+
+
+
+    }
+
+    private void showPopup(){
+        Dialog dialog = new Dialog(this, R.style.DialogSyule);
+        dialog.setContentView(R.layout.pop_up_layout);
+
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window);
+
+        dialog.show();
     }
 
     private void scanCode() {
@@ -176,21 +241,6 @@ public class ScanMeal extends AppCompatActivity {
         return result.toString();
     }
 
-    public static String[] extractFirstElements(String[] inputArray) {
-        String[] firstElements = new String[inputArray.length];
-
-        for (int i = 0; i < inputArray.length; i++) {
-            // Split each string based on a space character
-            String[] elements = inputArray[i].split(" ");
-
-            // Take the first element and store it in the result array
-            if (elements.length > 0) {
-                firstElements[i] = elements[0];
-            }
-        }
-
-        return firstElements;
-    }
 
     private static String formatMap(Map<String, Double> map) {
         StringBuilder result = new StringBuilder();
@@ -199,6 +249,8 @@ public class ScanMeal extends AppCompatActivity {
         }
         return result.toString();
     }
+
+
 
 }
 

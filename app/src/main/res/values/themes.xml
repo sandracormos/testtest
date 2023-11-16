@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Test" parent="Base.Theme.Test" />
+
+    <style name="DialogSyule" parent="Theme.AppCompat.Dialog">
+        <item name= "android:windowMinWidthMajor">100%</item>
+
+        <item name= "android:windowMinWidthMinor">100%</item>
+    </style>
 </resources>
