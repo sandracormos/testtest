@@ -1,18 +1,16 @@
 package com.example.test;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -37,7 +35,7 @@ import java.util.Map;
 public class ScanMeal extends AppCompatActivity {
 
     Button btn_scan;
-    TextView tx;
+    public TextView tx;
 
     String barcode;
 
@@ -46,9 +44,19 @@ public class ScanMeal extends AppCompatActivity {
     TextView aux_pannel;
     ImageView tick_button;
     ImageView cancel_button;
-    TextView kcal_number;
+    public TextView kcal_number;
 
-    Button nr_service_btn;
+    Button nr_servings_btn;
+    public Map<String, Double> myMap;
+    ImageView eating_icon;
+
+    TextView number_of_servings_label;
+    TextView kcal_label;
+
+    public Double usedKcal;
+
+
+
 
 //    private static final String APP_ID="3f4bd6c4";
 //    private static final String API_KEY = "4a3dc4f14378a3b2c6562d784da31153";
@@ -66,7 +74,11 @@ public class ScanMeal extends AppCompatActivity {
         tick_button = findViewById(R.id.tick_button);
         cancel_button = findViewById(R.id.cancel_button);
         kcal_number = findViewById(R.id.kcal_number);
-        nr_service_btn= findViewById(R.id.number_of_servings_button);
+        nr_servings_btn= findViewById(R.id.number_of_servings_button);
+        number_of_servings_label = findViewById(R.id.number_of_servings_label);
+        kcal_label = findViewById(R.id.kcal_label);
+        eating_icon = findViewById(R.id.eating_icon);
+
 
 
 
@@ -77,18 +89,35 @@ public class ScanMeal extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    tick_button.setVisibility(View.VISIBLE);
+
                     aux_pannel.setVisibility(View.VISIBLE);
                     product_name.setVisibility(View.VISIBLE);
                     tx.setVisibility(View.VISIBLE);
+                    kcal_number.setVisibility(View.VISIBLE);
+                    nr_servings_btn.setVisibility((View.VISIBLE));
+                    kcal_label.setVisibility(View.VISIBLE);
 
                     cancel_button.setVisibility(View.VISIBLE);
+                    tick_button.setVisibility(View.VISIBLE);
+                    number_of_servings_label.setVisibility(View.VISIBLE);
+                    eating_icon.setVisibility(View.INVISIBLE);
+
                 }
             }, 2000);
 
+
+            tick_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    User.setKcalCount(Double.valueOf(User.getKcalCount() - usedKcal));
+                    startActivity(new Intent(ScanMeal.this, KcalMenu.class));
+                }
+            });
+
         });
 
-        nr_service_btn.setOnClickListener(v ->{
+        nr_servings_btn.setOnClickListener(v ->{
             showPopup();
         });
 
@@ -111,7 +140,7 @@ public class ScanMeal extends AppCompatActivity {
 
                 Gson gson = new Gson();
                 ResponseProducts foodData = gson.fromJson(responseRawText, ResponseProducts.class);
-                Map<String, Double> myMap = getNutritionalValues(foodData.products.get(0).nutrition_facts);
+                myMap = getNutritionalValues(foodData.products.get(0).nutrition_facts);
                 tx.setText(formatMap(myMap));
                 product_name.setText(foodData.products.get(0).title);
 
@@ -154,12 +183,73 @@ public class ScanMeal extends AppCompatActivity {
     }
 
     private void showPopup(){
+        Spinner measurements;
+        ImageButton save;
+        ImageButton cancel;
+        EditText number_of_servings;
+
         Dialog dialog = new Dialog(this, R.style.DialogSyule);
         dialog.setContentView(R.layout.pop_up_layout);
-
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_window);
 
         dialog.show();
+
+        measurements = dialog.findViewById(R.id.spinner_measurements);
+        save = dialog.findViewById(R.id.save);
+        cancel = dialog.findViewById(R.id.cancel);
+        number_of_servings = dialog.findViewById(R.id.number_of_servings);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                String usedMesurements = measurements.getSelectedItem().toString();
+                Double auxMeasurements = Double.valueOf(usedMesurements.replaceAll("[^0-9]", ""));
+                Double numerOfServing = Double.valueOf(number_of_servings.getText().toString());
+
+                Double quantity = auxMeasurements * numerOfServing;
+
+
+
+
+                Double s = Double.valueOf(myMap.get("Energy").toString());
+
+                Double totalKCalNumber = (quantity * s) / 100;
+
+                usedKcal = totalKCalNumber;
+
+                for(  Map.Entry<String,Double> entry: myMap.entrySet()){
+                    entry.setValue(entry.getValue()* (quantity/100));
+                }
+                tx.setText(formatMap(myMap));
+                kcal_number.setText(totalKCalNumber.toString());
+                nr_servings_btn.setText(numerOfServing.toString());
+
+
+            }
+        });
+
+
+
+
+
+       cancel.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               dialog.dismiss();
+           }
+       });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Spinner_items_measurements, R.layout.spinner_color_measurements_layout);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
+        measurements.setAdapter(adapter);
+
+
+
+
+
+
     }
 
     private void scanCode() {

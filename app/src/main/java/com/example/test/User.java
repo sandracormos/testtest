@@ -5,7 +5,7 @@ public class User {
 
     private static double height;
     private static double weight;
-    private static Integer kcalCount;
+    private static Double kcalCount;
 
     private static Gender gender;
 
@@ -23,7 +23,7 @@ public class User {
         User.weight = weight;
     }
 
-    public static void setKcalCount(Integer kcalCount){
+    public static void setKcalCount(Double kcalCount){
         User.kcalCount = kcalCount;
     }
     public static void setGender(Gender gender) {
@@ -45,7 +45,7 @@ public class User {
     public static Double getHeight() {
         return height;
     }
-    public static Integer getKcalCount() {
+    public static Double getKcalCount() {
         return kcalCount;
     }
 

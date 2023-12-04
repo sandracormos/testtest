@@ -24,4 +24,11 @@
     </string-array>
 
 
+    <string-array name="Spinner_items_measurements">
+        <item>100 g</item>
+        <item>1 g</item>
+        <item>100 ml</item>
+        <item>1 ml</item>
+    </string-array>
+
 </resources>

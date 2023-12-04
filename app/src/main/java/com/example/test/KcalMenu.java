@@ -3,6 +3,7 @@ package com.example.test;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -44,15 +45,23 @@ public class KcalMenu extends AppCompatActivity {
 
 
 
+
         calculateRecommendedCaloriesForGoal(User.getGoal());
         configureScanBreakfast();
         configureScanLunch();
         configureScanDinner();
         configureScanSnacks();
 
+
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        kcalCount_label.setText(User.getKcalCount().toString());
 
+    }
 
     private void configureScanBreakfast() {
         breakfast_button.setOnClickListener(new View.OnClickListener() {
@@ -111,12 +120,12 @@ public class KcalMenu extends AppCompatActivity {
             case wellness:
 
                 if(User.getGender() == Gender.Male){
-                    Integer kcalCount = (int) (10* User.getWeight() + 6.25 * User.getHeight() -5* User.getAge() + 5);
+                    Double kcalCount = Double.valueOf(10* User.getWeight() + 6.25 * User.getHeight() -5* User.getAge() + 5);
                     User.setKcalCount( kcalCount);
                     kcalCount_label.setText(kcalCount.toString());
                 }
                 else{
-                    Integer kcalCount = (int) (10*User.getWeight() + 6.25 *User.getHeight() - 5 * User.getAge() - 161);
+                    Double kcalCount = Double.valueOf (10*User.getWeight() + 6.25 *User.getHeight() - 5 * User.getAge() - 161);
                     User.setKcalCount(kcalCount);
                     kcalCount_label.setText(kcalCount.toString());
                 }
