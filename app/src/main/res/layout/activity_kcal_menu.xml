@@ -59,7 +59,7 @@
         android:gravity="center"
         android:text="2000"
         android:textColor="@color/button"
-        android:textSize="45dp"
+        android:textSize="35dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toStartOf="@+id/imageView7"
         app:layout_constraintHorizontal_bias="0.478"
@@ -185,6 +185,7 @@
         tools:ignore="MissingConstraints" />
 
     <ScrollView
+        android:id="@+id/parentScrollView"
         android:layout_width="match_parent"
         android:layout_height="433dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -223,17 +224,41 @@
                 android:background="@drawable/add_breakfast_button"
                 android:padding="20sp" />
 
-            <TextView
-                android:id="@+id/breakfast_meal"
+
+            <ScrollView
+                android:id="@+id/breakfast_meals_scrollview"
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/input"
-                android:textColor="@color/white"
-                android:text="meals" />
+                android:background="@color/input">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/breakfast_meal"
+                            android:layout_width="350dp"
+                            android:layout_height="160dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@color/input"
+                            android:textColor="@color/white" />
+
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+
+            </ScrollView>
+
 
             <ImageButton
                 android:id="@+id/lunch_button"
@@ -267,6 +292,18 @@
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center"
                 />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </androidx.core.widget.NestedScrollView>
+
 
         </LinearLayout>
 

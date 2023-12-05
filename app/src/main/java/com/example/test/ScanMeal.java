@@ -60,7 +60,6 @@ public class ScanMeal extends AppCompatActivity {
     TextView number_of_servings_label;
     TextView kcal_label;
 
-    public Double usedKcal;
 
     public ResponseProducts foodData;
 
@@ -393,6 +392,7 @@ public class ScanMeal extends AppCompatActivity {
         return (quantityOfUsedFood * s) ;
 
     }
+
 
 
 
