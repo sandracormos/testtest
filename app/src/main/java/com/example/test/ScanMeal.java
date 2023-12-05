@@ -1,4 +1,6 @@
 package com.example.test;
+
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -29,7 +31,12 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ScanMeal extends AppCompatActivity {
@@ -54,6 +61,12 @@ public class ScanMeal extends AppCompatActivity {
     TextView kcal_label;
 
     public Double usedKcal;
+
+    public ResponseProducts foodData;
+
+    Double quantityOfUsedFood;
+
+    Meal mealType;
 
 
 
@@ -106,11 +119,39 @@ public class ScanMeal extends AppCompatActivity {
             }, 2000);
 
 
+            //adding food to journal
+            //substracting used kcal
+
             tick_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    User.setKcalCount(Double.valueOf(User.getKcalCount() - usedKcal));
+                    mealType= KcalMenu.myMeal;
+
+                    LocalDate date = LocalDate.now();
+
+                    DayEntry dayEntry = User.journal.get(LocalDate.now());
+                    if(dayEntry == null)
+                    {
+                        dayEntry = new DayEntry();
+                        User.journal.put(LocalDate.now(), dayEntry);
+                    }
+
+                    switch (mealType) {
+                        case Breakfast:
+                            dayEntry.getBreakfastList().put(foodData, quantityOfUsedFood);
+                            break;
+                        case Lunch:
+                            dayEntry.getLunchList().put(foodData, quantityOfUsedFood);
+                            break;
+                        case Dinner:
+                            dayEntry.getDinnerList().put(foodData, quantityOfUsedFood);
+                            break;
+                        case Snacks:
+                            dayEntry.getSnacksList().put(foodData, quantityOfUsedFood);
+                            break;
+                    }
+//                    User.setKcalCount(Double.valueOf(User.getKcalCount() - usedKcal));
                     startActivity(new Intent(ScanMeal.this, KcalMenu.class));
                 }
             });
@@ -139,7 +180,7 @@ public class ScanMeal extends AppCompatActivity {
                 tx.setText(response.toString());
 
                 Gson gson = new Gson();
-                ResponseProducts foodData = gson.fromJson(responseRawText, ResponseProducts.class);
+                foodData = gson.fromJson(responseRawText, ResponseProducts.class);
                 myMap = getNutritionalValues(foodData.products.get(0).nutrition_facts);
                 tx.setText(formatMap(myMap));
                 product_name.setText(foodData.products.get(0).title);
@@ -199,6 +240,8 @@ public class ScanMeal extends AppCompatActivity {
         cancel = dialog.findViewById(R.id.cancel);
         number_of_servings = dialog.findViewById(R.id.number_of_servings);
 
+
+        //editing quantity, number of servings etc...
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,27 +251,29 @@ public class ScanMeal extends AppCompatActivity {
                 Double auxMeasurements = Double.valueOf(usedMesurements.replaceAll("[^0-9]", ""));
                 Double numerOfServing = Double.valueOf(number_of_servings.getText().toString());
 
-                Double quantity = auxMeasurements * numerOfServing;
+                 quantityOfUsedFood = auxMeasurements * numerOfServing / 100;
 
 
 
 
-                Double s = Double.valueOf(myMap.get("Energy").toString());
+                Double totalKcalNumber = calculateUsedKcal(foodData, quantityOfUsedFood);
 
-                Double totalKCalNumber = (quantity * s) / 100;
 
-                usedKcal = totalKCalNumber;
 
                 for(  Map.Entry<String,Double> entry: myMap.entrySet()){
-                    entry.setValue(entry.getValue()* (quantity/100));
+                    entry.setValue(entry.getValue()* (quantityOfUsedFood));
                 }
+
+
                 tx.setText(formatMap(myMap));
-                kcal_number.setText(totalKCalNumber.toString());
+                kcal_number.setText(totalKcalNumber.toString());
                 nr_servings_btn.setText(numerOfServing.toString());
 
 
             }
         });
+
+
 
 
 
@@ -276,7 +321,7 @@ public class ScanMeal extends AppCompatActivity {
 //    }
 
 
-    private Map<String, Double> getNutritionalValues(String nutritionsFacts) {
+    static Map<String, Double> getNutritionalValues(String nutritionsFacts) {
 
         String[] elementsArray = nutritionsFacts.split(", ");
         Map<String, Double> resultMap = new HashMap<>();
@@ -334,10 +379,19 @@ public class ScanMeal extends AppCompatActivity {
 
     private static String formatMap(Map<String, Double> map) {
         StringBuilder result = new StringBuilder();
+        DecimalFormat df = new DecimalFormat("#.###");
         for (Map.Entry<String, Double> entry : map.entrySet()) {
-            result.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            result.append(entry.getKey()).append(": ").append(df.format(entry.getValue())).append("\n");
         }
         return result.toString();
+    }
+
+
+
+    public Double calculateUsedKcal(ResponseProducts foodData,  Double quantity) {
+        Double s = Double.valueOf(myMap.get("Energy").toString());
+        return (quantityOfUsedFood * s) ;
+
     }
 
 

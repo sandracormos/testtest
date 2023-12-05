@@ -59,7 +59,7 @@
         android:gravity="center"
         android:text="2000"
         android:textColor="@color/button"
-        android:textSize="55dp"
+        android:textSize="45dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toStartOf="@+id/imageView7"
         app:layout_constraintHorizontal_bias="0.478"
@@ -106,10 +106,10 @@
         app:layout_constraintVertical_bias="0.333" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/kcal_eaten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="208"
+        android:text="0"
         android:textColor="@color/white"
 
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
@@ -223,6 +223,18 @@
                 android:background="@drawable/add_breakfast_button"
                 android:padding="20sp" />
 
+            <TextView
+                android:id="@+id/breakfast_meal"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/input"
+                android:textColor="@color/white"
+                android:text="meals" />
+
             <ImageButton
                 android:id="@+id/lunch_button"
                 android:layout_width="350dp"
@@ -255,6 +267,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center"
                 />
+
         </LinearLayout>
 
 

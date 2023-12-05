@@ -1,4 +1,11 @@
 package com.example.test;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 enum Goal{ weightLoss, bodybuilding, wellness}
 enum Gender {Female, Male }
 public class User {
@@ -12,6 +19,8 @@ public class User {
     private static Goal goal;
 
     private static int age;
+
+     static Map<LocalDate, DayEntry> journal = new HashMap<>();
 
     // Private constructor to prevent instantiation
     private User() {}
@@ -38,6 +47,7 @@ public class User {
 
 
 
+
     public static double getWeight() {
         return weight;
     }
@@ -54,6 +64,12 @@ public class User {
     public static Integer getAge(){return age;}
 
     public static Goal getGoal(){return goal;}
+
+    public static Map<LocalDate, DayEntry> getJournal(){return journal;}
+
+
+
+
 
 
 

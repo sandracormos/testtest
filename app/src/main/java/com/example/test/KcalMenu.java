@@ -14,17 +14,20 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 
 enum Meal {Breakfast, Lunch, Dinner, Snacks}
 
 public class KcalMenu extends AppCompatActivity {
 
-    Meal myMeal;
+    public static Meal myMeal;
     TextView kcalCount_label;
+    TextView kcal_eaten;
 
     ImageButton breakfast_button;
     ImageButton lunch_button;
@@ -37,6 +40,8 @@ public class KcalMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kcal_menu);
         kcalCount_label = findViewById(R.id.kcalCount);
+        kcal_eaten = findViewById(R.id.kcal_eaten);
+
 
         breakfast_button = findViewById(R.id.breakfast_button);
         lunch_button = findViewById(R.id.lunch_button);
@@ -51,15 +56,32 @@ public class KcalMenu extends AppCompatActivity {
         configureScanLunch();
         configureScanDinner();
         configureScanSnacks();
+//        updateRemainingKcal();
 
 
 
     }
 
+
+    private void updateRemainingKcal(){
+        DayEntry dayEntry = User.journal.get(LocalDate.now());
+        if(dayEntry != null){
+            Double kcalRemaining = User.getKcalCount() - dayEntry.calculateUsedKcalPerDay();
+            kcalCount_label.setText(kcalRemaining.toString());
+            kcal_eaten.setText(dayEntry.calculateUsedKcalPerDay().toString());
+        }
+        else
+        {
+            kcalCount_label.setText(User.getKcalCount().toString());
+        }
+    }
+
+
+
     @Override
     protected void onStart() {
-        super.onStart();
-        kcalCount_label.setText(User.getKcalCount().toString());
+         super.onStart();
+        updateRemainingKcal();
 
     }
 
@@ -67,8 +89,9 @@ public class KcalMenu extends AppCompatActivity {
         breakfast_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity((new Intent(KcalMenu.this, ScanMeal.class)));
                 myMeal = Meal.Breakfast;
+                startActivity((new Intent(KcalMenu.this, ScanMeal.class)));
+
             }
         });
     }
@@ -76,9 +99,9 @@ public class KcalMenu extends AppCompatActivity {
         lunch_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myMeal = Meal.Lunch;
                 startActivity((new Intent(KcalMenu.this, ScanMeal.class)));
 
-                myMeal = Meal.Lunch;
             }
         });
     }
@@ -86,9 +109,9 @@ public class KcalMenu extends AppCompatActivity {
         dinner_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myMeal = Meal.Dinner;
                 startActivity((new Intent(KcalMenu.this, ScanMeal.class)));
 
-                myMeal = Meal.Dinner;
             }
         });
     }
@@ -96,9 +119,9 @@ public class KcalMenu extends AppCompatActivity {
         snacks_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myMeal = Meal.Snacks;
                 startActivity((new Intent(KcalMenu.this, ScanMeal.class)));
 
-                myMeal = Meal.Snacks;
             }
         });
     }
