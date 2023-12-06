@@ -168,9 +168,8 @@ public class ScanMeal extends AppCompatActivity {
 
     public void sendRequest(){
 
-        String myApiKey = "xxuyc3plheqm4g7uqgxxwp418t54m2";
+        String myApiKey = "r3x2g5adwtcbdd7hkrle9tun33dl64";
         String url = "https://api.barcodelookup.com/v3/products?barcode=" + barcode + "&key=" + myApiKey;
-        String API_URL = url + barcode;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -179,12 +178,18 @@ public class ScanMeal extends AppCompatActivity {
                 tx.setText(response.toString());
 
                 Gson gson = new Gson();
+                ResponseProducts test;
                 foodData = gson.fromJson(responseRawText, ResponseProducts.class);
+                test = foodData;
+                String testString = test.products.get(0).title + test.products.get(0).nutrition_facts;
                 myMap = getNutritionalValues(foodData.products.get(0).nutrition_facts);
                 tx.setText(formatMap(myMap));
                 product_name.setText(foodData.products.get(0).title);
 
                 Double kcal = myMap.get("Energy") ;
+                if(kcal == null)
+                    return; // Handle energy not found.
+
                 kcal_number.setText(kcal.toString());
 
                 //tx.setText(foodData.products.get(0).nutrition_facts);
