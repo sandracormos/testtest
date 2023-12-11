@@ -1,6 +1,8 @@
 package com.example.test;
 
 
+import static androidx.core.widget.TextViewCompat.setAutoSizeTextTypeWithDefaults;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -33,6 +35,9 @@ public class KcalMenu extends AppCompatActivity {
     TextView kcal_eaten;
 
     TextView breakfast_meal;
+    TextView lunch_meal;
+    TextView dinner_meal;
+    TextView snacks_meal;
 
     ImageButton breakfast_button;
     ImageButton lunch_button;
@@ -52,7 +57,11 @@ public class KcalMenu extends AppCompatActivity {
         setContentView(R.layout.activity_kcal_menu);
         kcalCount_label = findViewById(R.id.kcalCount);
         kcal_eaten = findViewById(R.id.kcal_eaten);
+
         breakfast_meal = findViewById(R.id.breakfast_meal);
+        lunch_meal = findViewById(R.id.lunch_meal);
+        dinner_meal = findViewById(R.id.dinner_meal);
+        snacks_meal = findViewById(R.id.snacks_meal);
 
 
         breakfast_button = findViewById(R.id.breakfast_button);
@@ -61,7 +70,6 @@ public class KcalMenu extends AppCompatActivity {
         snacks_button = findViewById(R.id.snacks_button);
 
 
-        childScrollView = (ScrollView) findViewById(R.id.breakfast_meals_scrollview);
         parentScrollView = (ScrollView) findViewById(R.id.parentScrollView);
 
 
@@ -81,22 +89,34 @@ public class KcalMenu extends AppCompatActivity {
         DayEntry dayEntry = User.journal.get(LocalDate.now());
         if(dayEntry != null){
             for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getBreakfastList().entrySet()) {
-
-
-
-                Double kcalPerProd = prod.getValue();
-                Map<String, Double> myMap= ScanMeal.getNutritionalValues(prod.getKey().products.get(0).nutrition_facts);
-                Double numberOfKcal = myMap.get("Energy");
-                Double total = numberOfKcal * prod.getValue();
-
-                String s = prod.getKey().products.get(0).title + "    " + total.toString() + "\n";
-                breakfast_meal.append(s);
-
-
+                String s= getMealProducts(prod);
+                breakfast_meal.setText(s.toString());
+            }
+            for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getLunchList().entrySet()) {
+                String s= getMealProducts(prod);
+                lunch_meal.setText(s.toString());
+            }
+            for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getDinnerList().entrySet()) {
+                String s= getMealProducts(prod);
+                dinner_meal.setText(s.toString());
+            }
+            for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getSnacksList().entrySet()) {
+                String s= getMealProducts(prod);
+                snacks_meal.setText(s.toString());
             }
         }
-
     }
+
+    private String getMealProducts( Map.Entry<ResponseProducts, Double> prod){
+        Map<String, Double> myMap= ScanMeal.getNutritionalValues(prod.getKey().products.get(0).nutrition_facts);
+        Double numberOfKcal = myMap.get("Energy");
+        Double total = numberOfKcal * prod.getValue();
+
+        String s =" "+ prod.getKey().products.get(0).title + "    " + total.toString() + "\n";
+        return s;
+    }
+
+
 
 
 
@@ -164,38 +184,46 @@ public class KcalMenu extends AppCompatActivity {
         });
     }
 
+    private Double calculateBaseCalorieNumber(){
+        Double kcalCount=0.0;
+        if(User.getGender() == Gender.Male){
+             kcalCount = Double.valueOf(10* User.getWeight() + 6.25 * User.getHeight() -5* User.getAge() + 5);
+
+        }
+        else{
+             kcalCount = Double.valueOf (10*User.getWeight() + 6.25 *User.getHeight() - 5 * User.getAge() - 161);
+        }
+        return kcalCount;
+    };
     public void calculateRecommendedCaloriesForGoal(Goal myGoal){
+        Double kcalCount = 0.0;
+        Double result = 0.0;
         switch (myGoal){
             case weightLoss:
-                //code
+
+                kcalCount = calculateBaseCalorieNumber();
+                result = kcalCount * 1.25;
+                User.setKcalCount( result);
+                kcalCount_label.setText(result.toString());
+
 
 
                 break;
 
             case bodybuilding:
-                //code
-
+                kcalCount = calculateBaseCalorieNumber();
+                result = kcalCount + kcalCount* (15/100);
+                User.setKcalCount( result);
+                kcalCount_label.setText(result.toString());
 
                 break;
 
             case wellness:
-
-                if(User.getGender() == Gender.Male){
-                    Double kcalCount = Double.valueOf(10* User.getWeight() + 6.25 * User.getHeight() -5* User.getAge() + 5);
-                    User.setKcalCount( kcalCount);
-                    kcalCount_label.setText(kcalCount.toString());
-                }
-                else{
-                    Double kcalCount = Double.valueOf (10*User.getWeight() + 6.25 *User.getHeight() - 5 * User.getAge() - 161);
-                    User.setKcalCount(kcalCount);
-                    kcalCount_label.setText(kcalCount.toString());
-                }
-
-
+                kcalCount = calculateBaseCalorieNumber();
+                User.setKcalCount( kcalCount);
+                kcalCount_label.setText(kcalCount.toString());
 
                 break;
-            default:
-                //code
 
         }
 

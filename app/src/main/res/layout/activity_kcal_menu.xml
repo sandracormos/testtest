@@ -225,39 +225,20 @@
                 android:padding="20sp" />
 
 
-            <ScrollView
-                android:id="@+id/breakfast_meals_scrollview"
+
+
+            <TextView
+                android:id="@+id/breakfast_meal"
                 android:layout_width="350dp"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
+                android:textSize="40px"
                 android:layout_gravity="center"
-                android:background="@color/input">
-
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/breakfast_meal"
-                            android:layout_width="350dp"
-                            android:layout_height="160dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="15dp"
-                            android:background="@color/input"
-                            android:textColor="@color/white" />
-
-
-                    </LinearLayout>
-                </androidx.core.widget.NestedScrollView>
-
-
-            </ScrollView>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/input"
+                android:textColor="@color/white"
+                />
 
 
             <ImageButton
@@ -271,6 +252,20 @@
                 android:background="@drawable/add_lunch_button"
                 android:padding="20sp" />
 
+            <TextView
+                android:id="@+id/lunch_meal"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:textSize="40px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/input"
+                android:textColor="@color/white"
+                />
+
+
             <ImageButton
                 android:id="@+id/dinner_button"
                 android:layout_width="350dp"
@@ -281,6 +276,20 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/add_dinner_button"
                 android:padding="20sp" />
+
+            <TextView
+                android:id="@+id/dinner_meal"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:textSize="40px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/input"
+                android:textColor="@color/white"
+                />
+
             <ImageButton
                 android:id="@+id/snacks_button"
                 android:layout_width="350dp"
@@ -293,16 +302,18 @@
                 android:layout_gravity="center"
                 />
 
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/snacks_meal"
+                android:layout_width="350dp"
                 android:layout_height="match_parent"
-                android:fillViewport="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-            </androidx.core.widget.NestedScrollView>
+                android:textSize="40px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/input"
+                android:textColor="@color/white"
+                />
 
 
         </LinearLayout>
