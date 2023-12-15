@@ -127,13 +127,12 @@ public class ScanMeal extends AppCompatActivity {
 
                     mealType= KcalMenu.myMeal;
 
-                    LocalDate date = LocalDate.now();
 
-                    DayEntry dayEntry = User.journal.get(LocalDate.now());
+                    DayEntry dayEntry = User.journal.get(User.currentJournalDay);
                     if(dayEntry == null)
                     {
                         dayEntry = new DayEntry();
-                        User.journal.put(LocalDate.now(), dayEntry);
+                        User.journal.put(User.currentJournalDay, dayEntry);
                     }
 
                     switch (mealType) {

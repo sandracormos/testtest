@@ -20,7 +20,12 @@ public class User {
 
     private static int age;
 
-     static Map<LocalDate, DayEntry> journal = new HashMap<>();
+    static Map<LocalDate, DayEntry> journal = new HashMap<>();
+
+    static LocalDate currentJournalDay = LocalDate.now();
+
+
+
 
     // Private constructor to prevent instantiation
     private User() {}

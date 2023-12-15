@@ -1,28 +1,17 @@
 package com.example.test;
 
 
-import static androidx.core.widget.TextViewCompat.setAutoSizeTextTypeWithDefaults;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 
 
@@ -43,10 +32,16 @@ public class KcalMenu extends AppCompatActivity {
     ImageButton lunch_button;
     ImageButton dinner_button;
     ImageButton snacks_button;
-
-    ScrollView  childScrollView;
-
     ScrollView parentScrollView;
+
+
+    TextView journal_day;
+    ImageButton next_day;
+    ImageButton day_before;
+
+    Integer counterDays = 0;
+
+
 
 
 
@@ -69,8 +64,11 @@ public class KcalMenu extends AppCompatActivity {
         dinner_button = findViewById(R.id.dinner_button);
         snacks_button = findViewById(R.id.snacks_button);
 
-
         parentScrollView = (ScrollView) findViewById(R.id.parentScrollView);
+
+        journal_day = findViewById(R.id.journal_date);
+        next_day = findViewById(R.id.next_day);
+        day_before = findViewById(R.id.day_before);
 
 
 
@@ -81,28 +79,56 @@ public class KcalMenu extends AppCompatActivity {
         configureScanDinner();
         configureScanSnacks();
 
+        next_day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counterDays +=1;
+
+                showDate();
+                RefreshMealTextviews();
+
+            }
+        });
+
+        day_before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counterDays -=1;
+                showDate();
+                RefreshMealTextviews();
+            }
+
+        });
+
+        showDate();
      
     }
 
 
-    private void addProductsToMeal(){
-        DayEntry dayEntry = User.journal.get(LocalDate.now());
+
+
+    private void RefreshMealTextviews(){
+        breakfast_meal.setText("");
+        lunch_meal.setText("");
+        dinner_meal.setText("");
+        snacks_meal.setText("");
+        DayEntry dayEntry = User.journal.get(User.currentJournalDay);
         if(dayEntry != null){
             for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getBreakfastList().entrySet()) {
                 String s= getMealProducts(prod);
-                breakfast_meal.setText(s.toString());
+                breakfast_meal.append(s.toString());
             }
             for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getLunchList().entrySet()) {
                 String s= getMealProducts(prod);
-                lunch_meal.setText(s.toString());
+                lunch_meal.append(s.toString());
             }
             for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getDinnerList().entrySet()) {
                 String s= getMealProducts(prod);
-                dinner_meal.setText(s.toString());
+                dinner_meal.append(s.toString());
             }
             for ( Map.Entry<ResponseProducts, Double> prod : dayEntry.getSnacksList().entrySet()) {
                 String s= getMealProducts(prod);
-                snacks_meal.setText(s.toString());
+                snacks_meal.append(s.toString());
             }
         }
     }
@@ -121,7 +147,7 @@ public class KcalMenu extends AppCompatActivity {
 
 
     private void updateRemainingKcal(){
-        DayEntry dayEntry = User.journal.get(LocalDate.now());
+        DayEntry dayEntry = User.journal.get(User.currentJournalDay);
         if(dayEntry != null){
             Double kcalRemaining = User.getKcalCount() - dayEntry.calculateUsedKcalPerDay();
             kcalCount_label.setText(kcalRemaining.toString());
@@ -139,7 +165,7 @@ public class KcalMenu extends AppCompatActivity {
     protected void onStart() {
          super.onStart();
         updateRemainingKcal();
-        addProductsToMeal();
+        RefreshMealTextviews();
 
     }
 
@@ -226,7 +252,13 @@ public class KcalMenu extends AppCompatActivity {
                 break;
 
         }
-
-
     }
+
+
+    public void showDate(){
+        journal_day.setText(LocalDate.now().toString());
+        LocalDate date= LocalDate.now().plusDays(counterDays);
+        journal_day.setText(date.toString());
+        User.currentJournalDay = date;
+    };
 }
