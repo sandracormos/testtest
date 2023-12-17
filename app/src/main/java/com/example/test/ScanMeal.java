@@ -185,17 +185,35 @@ public class ScanMeal extends AppCompatActivity {
                 tx.setText(formatMap(myMap));
                 product_name.setText(foodData.products.get(0).title);
 
+
+
+
                 Double kcal = myMap.get("Energy") ;
                 if(kcal == null)
                     return; // Handle energy not found.
 
                 kcal_number.setText(kcal.toString());
 
-                //tx.setText(foodData.products.get(0).nutrition_facts);
 
-//                tx.setText((CharSequence) myMap);
+                foodData.products.get(0).number_of_calories = kcal;
 
-                // Now you can use the 'foodData' object as needed
+
+                Double fat = myMap.get("Fat");
+                if(fat == null)
+                    return;
+                foodData.products.get(0).grams_of_fat = fat;
+
+                Double carbohydrates = myMap.get("Carbohydrates");
+                if(carbohydrates == null)
+                    return;
+                foodData.products.get(0).grams_of_carbs = carbohydrates;
+
+                Double protein = myMap.get("Protein");
+                if(protein == null)
+                    return;
+                foodData.products.get(0).grams_of_protein = protein;
+
+
 
             }
         }, new Response.ErrorListener() {
@@ -317,11 +335,7 @@ public class ScanMeal extends AppCompatActivity {
         }
     });
 
-//    private void handleScannedBarcode(String barcode) {
-//        // Make the API request
-////        String result = SearchForFood(barcode);
-////        result = "";
-//    }
+
 
 
     static Map<String, Double> getNutritionalValues(String nutritionsFacts) {

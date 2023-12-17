@@ -24,6 +24,10 @@ public class User {
 
     static LocalDate currentJournalDay = LocalDate.now();
 
+    public static Double recommendedFatIntake;
+    public static Double recommendedProteinIntake;
+    public static Double recommendedCarbsIntake;
+
 
 
 
@@ -48,6 +52,7 @@ public class User {
     }
 
     public static void setGoal(Goal goal) {User.goal = goal;}
+
 
 
 
