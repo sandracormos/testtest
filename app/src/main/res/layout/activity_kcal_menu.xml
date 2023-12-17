@@ -365,4 +365,16 @@
         app:srcCompat="@drawable/right_arrow" />
 
 
+    <ProgressBar
+        android:id="@+id/progress_bar_protein"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="67dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView16"
+        app:layout_constraintEnd_toEndOf="@+id/textView16"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/textView18"
+        app:layout_constraintVertical_bias="0.0"
+        android:progress="25"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

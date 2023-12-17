@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class KcalMenu extends AppCompatActivity {
 
     Integer counterDays = 0;
 
+    ProgressBar progress_bar_protein;
+
 
 
 
@@ -69,6 +72,8 @@ public class KcalMenu extends AppCompatActivity {
         journal_day = findViewById(R.id.journal_date);
         next_day = findViewById(R.id.next_day);
         day_before = findViewById(R.id.day_before);
+
+        progress_bar_protein = findViewById(R.id.progress_bar_protein);
 
 
 
@@ -261,4 +266,7 @@ public class KcalMenu extends AppCompatActivity {
         journal_day.setText(date.toString());
         User.currentJournalDay = date;
     };
+
+
+    public void
 }
