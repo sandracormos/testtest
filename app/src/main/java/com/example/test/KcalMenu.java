@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -49,6 +50,8 @@ public class KcalMenu extends AppCompatActivity {
     ProgressBar progress_bar_carbs;
     ProgressBar progress_bar_fat;
 
+    Button button2;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -79,6 +82,15 @@ public class KcalMenu extends AppCompatActivity {
         progress_bar_carbs = findViewById(R.id.progress_bar_carbs);
         progress_bar_fat = findViewById(R.id.progress_bar_fat);
 
+
+        button2 = findViewById(R.id.button2);
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), Navigation_Menu.class));
+            }
+        });
         calculateRecommendedCaloriesForGoal(User.getGoal());
         configureScanBreakfast();
         configureScanLunch();
